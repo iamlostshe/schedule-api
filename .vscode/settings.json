@@ -5,7 +5,6 @@
         "**/.mypy_cache": true,
         "**/.ruff_cache": true,
         "**/.venv": true,
-        "**/sp_data": true,
         "uv.lock": true,
         ".python-version": true,
     },
