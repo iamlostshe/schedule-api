@@ -17,4 +17,5 @@ select = ["ALL"]
 ignore = [
     "RUF001", "RUF002", "RUF003",
     "TD002", "TD003", "FIX002",
+    "PLR2004",
 ]

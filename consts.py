@@ -1,9 +1,26 @@
 """Некторые постоянные значения."""
 
+import datetime
+
+
+def get_this_weekday() -> int:
+    """Получение текущего дня недели."""
+    this_weekday = datetime.datetime.now().weekday()  # noqa: DTZ005
+    return 0 if this_weekday == 6 else this_weekday
+
+
+def get_next_weekday() -> int:
+    """Получение следующего дня недели."""
+    next_weekday = (datetime.datetime.now() + datetime.timedelta(days=1)).weekday()  # noqa: DTZ005
+    return 0 if next_weekday == 6 else next_weekday
+
+
 PARAMS = {"format": "xlsx"}
 FOLDER_NAME = "sp_data"
 MAX_UPDATE_TIME = 3600
 NORMALIZED_WEEKDAYS = {
+    "this_day": get_this_weekday,
+    "next_day": get_next_weekday,
     "monday": 0,
     "tuesday": 1,
     "wednesday": 2,
@@ -46,5 +63,7 @@ MINIFY_LESSON_TITLE = {
     "биолог": "биология",
     "общест": "обществознание",
     "англ.яз": "английский язык",
-    "none": "окно",
+    "физ(у)/инф(у)": "физика (углублённая)/информатика (углублённая)",
+    "инф(б)/физ(б)": "информатика (базовая)/физика (базовая)",
+    "информ.(э)": "электив по информатике",
 }

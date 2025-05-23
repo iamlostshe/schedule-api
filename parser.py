@@ -14,6 +14,7 @@ from loguru import logger
 
 from consts import FOLDER_NAME, MAX_UPDATE_TIME, MINIFY_LESSON_TITLE, PARAMS
 
+Path(FOLDER_NAME).mkdir(parents=True, exist_ok=True)
 
 class IncorrectCabinetFormatError(ValueError):
     """Исключение, выбрасываемое при некорректном формате кабинета."""
@@ -43,7 +44,8 @@ def _normalize_lesson(lesson: str) -> str:
     """Нормализует название урока."""
     if isinstance(lesson, str):
         return MINIFY_LESSON_TITLE.get(
-            lesson.strip().strip(".").lower().split("(")[0], lesson,
+            lesson.strip().strip(".").lower().split("(")[0],
+            lesson,
         ).capitalize()
     return lesson
 
@@ -94,14 +96,14 @@ class ScheduleParser:
                     mode="wb",
                 ) as export_file:
                     await export_file.write(await r.read())
-                    logger.info("Файл расписания успешно загружен.")
+                    logger.info("Файл расписания {} успешно загружен.", table_id)
                     return filename
 
         except Exception as e:  # noqa: BLE001
             logger.error("Ошибка при загрузке файла: {}", e)
             return False
 
-    def parse_lessons(self, table_filename: str) -> dict[str, list[list[str]]]:
+    def parse_lessons(self, table_filename: str) -> dict[str, list[list[str]]]:  # noqa: C901, PLR0912
         """Парсит XLSX-файл в словарь расписания.
 
         Формат:
@@ -158,7 +160,7 @@ class ScheduleParser:
                         f"{_normalize_lesson(lesson)}:{cabinet}",
                     )
 
-            elif day == 5:  # После субботы — стоп  # noqa: PLR2004
+            elif day == 5:  # После субботы — стоп
                 break
 
         logger.info("Парсинг завершён успешно.")
